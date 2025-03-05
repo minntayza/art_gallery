@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/artist.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="header-content">
+        <h1>Myanmar Artists</h1>
+        <p>Discover the masters behind Myanmar's artistic heritage</p>
+    </div>
+</div>
+
+<section class="artist-gallery">
+    <div class="section-header">
+        <h2>Featured Artists</h2>
+        <p>Meet the talented creators shaping Myanmar's cultural landscape</p>
+    </div>
+    
+    <div class="gallery-grid">
+        {% for artist in artists %}
+        <div class="gallery-card">
+            <a href="{{ url_for('artist_detail', artist_id=artist['Id']) }}">
+                <div class="card-image">
+                    <img src="{{ url_for('static', filename=artist['Image']) }}" alt="{{ artist['Name'] }}">
+                </div>
+                <div class="card-info">
+                    <h3>{{ artist['Name'] }}</h3>
+                    <span class="artist-type">{{ artist['Type'] }}</span>
+                    <p class="description">{{ artist['Desc'] }}</p>
+                    <button onclick="openArtistModal('{{ artist['Name'] }}', '{{ url_for('static', filename=artist['Image']) }}', '{{ artist['Type'] }}', '{{ artist['Desc'] }}')" class="view-details">View Profile</button>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Artist Modal -->
+<div id="artistModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-grid">
+            <div class="modal-image">
+                <img id="modalImage" src="" alt="">
+            </div>
+            <div class="modal-info">
+                <h2 id="modalName"></h2>
+                <span id="modalType" class="artist-type"></span>
+                <div class="modal-desc">
+                    <p id="modalDesc"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/artist.js') }}"></script>
+{% endblock %}

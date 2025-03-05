@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/heritage.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="header-content">
+        <h1>Myanmar Heritage</h1>
+        <p>Discover the rich cultural treasures of Myanmar</p>
+    </div>
+</div>
+
+<section class="heritage-gallery">
+    <div class="section-header">
+        <h2>Heritage Collection</h2>
+        <p>Explore our curated collection of Myanmar's cultural heritage</p>
+    </div>
+
+    <!-- Add the filter section here -->
+    <div class="filter-section">
+        <select id="categoryFilter" class="category-select">
+            <option value="all">All Categories</option>
+            <option value="Pagoda">Pagoda</option>
+            <option value="Stele">Stele</option>
+            <option value="Sculpture">Sculpture</option>
+            <option value="Painting">Painting</option>
+            <option value="Handicraft">Handicraft</option>
+            <option value="Musical Instrument">Musical Instrument</option>
+            <option value="Costume">Costume</option>
+        </select>
+    </div>
+    
+    <div class="gallery-grid">
+        {% for item in heritage_items %}
+        <a href="{{ url_for('heritage_detail', heritage_id=item['Id']) }}" class="gallery-card" data-category="{{ item['Category'] }}">
+            <div class="card-image">
+                <img src="{{ url_for('static', filename=item['Image']) }}" alt="{{ item['Title'] }}">
+                <div class="tag">{{ item['Category'] }}</div>
+            </div>
+            <div class="card-info">
+                <h3>{{ item['Title'] }}</h3>
+                <button style="background: #3498db; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s ease; margin-top: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" onmouseover="this.style.background='#2980b9'" onmouseout="this.style.background='#3498db'">See More</button>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Heritage Modal -->
+    <div id="heritageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-grid">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="">
+                </div>
+                <div class="modal-info">
+                    <h2 id="modalTitle"></h2>
+                    <span id="modalPeriod" class="period"></span>
+                    <div class="modal-desc">
+                        <p id="modalDesc"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Make sure this modal div is inside the section but before the closing section tag -->
+<div id="heritageModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-grid">
+            <div class="modal-image">
+                <img id="modalImage" src="" alt="">
+            </div>
+            <div class="modal-info">
+                <h2 id="modalTitle"></h2>
+                <span id="modalPeriod" class="period"></span>
+                <div class="modal-desc">
+                    <p id="modalDesc"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Heritage Modal -->
+<div id="heritageModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-grid">
+            <div class="modal-image">
+                <img id="modalImage" src="" alt="">
+            </div>
+            <div class="modal-info">
+                <h2 id="modalTitle"></h2>
+                <span id="modalPeriod" class="period"></span>
+                <div class="modal-desc">
+                    <p id="modalDesc"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/heritage.js') }}"></script>
+{% endblock %}

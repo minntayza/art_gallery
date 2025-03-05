@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Myanmar Souvenirs</h1>
+    <p>Traditional crafts and memorabilia</p>
+</div>
+
+<div class="souvenir-grid">
+    {% for item in souvenirs %}
+    <div class="souvenir-card">
+        <img src="{{ url_for('static', filename=item['Image']) }}" alt="{{ item['Title'] }}">
+        <div class="souvenir-info">
+            <h2>{{ item['Title'] }}</h2>
+            <p class="type">{{ item['Type'] }}</p>
+            <p class="price">{{ item['Price'] }} MMK</p>
+            <p class="description">{{ item['Desc'] }}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

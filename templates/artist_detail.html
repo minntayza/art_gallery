@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}{{ artist.Name }} - ArtiMyanmar{% endblock %}
+
+{% block content %}
+<div style="background-color: #f5f5f5; min-height: 100vh; padding: 2rem 0;">
+    <div style="max-width: 1200px; margin: 6rem auto 4rem; padding: 0 2rem;">
+        <div style="background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 3rem;">
+            <div style="display: flex; gap: 4rem; margin-bottom: 4rem; align-items: flex-start;">
+                <div style="flex: 0 0 350px;">
+                    <div style="width: 350px; height: 350px; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);">
+                        <img src="{{ url_for('static', filename=artist.Image) }}" alt="{{ artist.Name }}" 
+                             style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
+                    </div>
+                </div>
+                
+                <div style="flex: 1; padding-top: 1rem;">
+                    <h1 style="font-size: 3rem; color: #2c3e50; font-family: 'Playfair Display', serif; margin-bottom: 1.5rem; line-height: 1.2;">
+                        {{ artist.Name }}
+                    </h1>
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+                        <span style="padding: 0.8rem 1.5rem; border-radius: 25px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; background: #3498db; color: #fff;">
+                            {{ artist.Type }}
+                        </span>
+                        <span style="padding: 0.8rem 1.5rem; border-radius: 25px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; background: #e74c3c; color: #fff;">
+                            {{ artist.Period }}
+                        </span>
+                    </div>
+                    <div style="font-size: 1.2rem; line-height: 1.8; color: #34495e; margin-bottom: 2rem;">
+                        <p>{{ artist.Desc }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="border-top: 1px solid #eee; padding-top: 3rem; margin-top: 2rem;">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; transition: all 0.3s ease;">
+                        <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 0.8rem;">
+                            Specialization
+                        </div>
+                        <div style="font-size: 1.2rem; color: #2c3e50; font-weight: 600;">
+                            {{ artist.Type }}
+                        </div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; transition: all 0.3s ease;">
+                        <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 0.8rem;">
+                            Active Period
+                        </div>
+                        <div style="font-size: 1.2rem; color: #2c3e50; font-weight: 600;">
+                            {{ artist.Period }}
+                        </div>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; transition: all 0.3s ease;">
+                        <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 0.8rem;">
+                            Origin
+                        </div>
+                        <div style="font-size: 1.2rem; color: #2c3e50; font-weight: 600;">
+                            Myanmar
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee;">
+                <h2 style="font-size: 2rem; color: #2c3e50; margin-bottom: 2rem; text-align: center;">Notable Works</h2>
+                <div style="width: 100%; overflow-x: auto; padding: 1rem 0; -webkit-overflow-scrolling: touch;">
+                    <div style="display: flex; gap: 2rem; padding: 0.5rem; min-width: min-content;">
+                        {% for i in range(1, 11) %}
+                        <div style="flex: 0 0 300px;">
+                            <div style="width: 300px; height: 200px; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease;">
+                                <img src="{{ url_for('static', filename='images/paintings/painting' ~ i ~ '.jpg') }}" 
+                                     alt="Painting {{ i }}" 
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <h3 style="font-size: 1.1rem; color: #2c3e50; margin-top: 1rem; text-align: center;">Painting Title {{ i }}</h3>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; text-align: center;">
+                <a href="{{ url_for('artist') }}" 
+                   style="display: inline-flex; align-items: center; padding: 1rem 2rem; background: #3498db; color: #fff; text-decoration: none; border-radius: 30px; font-weight: 500; transition: all 0.3s ease;">
+                    <span style="margin-right: 0.8rem; font-size: 1.2rem;">←</span>
+                    Back to Artists Gallery
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

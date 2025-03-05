@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtiMyanmar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/hero.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/sections.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="brand">
+                <span class="brand-highlight">Arti</span>Myanmar
+            </a>
+            <ul class="nav-links">
+                <li><a href="/" class="active">Home</a></li>
+                <li><a href="/heritage">Heritage</a></li>
+                <li><a href="/artist">Artist</a></li>
+                <li><a href="/souvenir">Souvenir</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/admin" class="login-btn">Log in</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="hero-slider">
+            <div class="slide active">
+                <div class="slide-content">
+                    <h1>Discover Myanmar's<br>Cultural Heritage</h1>
+                    <p>Experience the beauty of traditional art and craftsmanship</p>
+                    <a href="/heritage" class="cta-button">Explore Now</a>
+                </div>
+                <img src="{{ url_for('static', filename='images/slider1.jpg') }}" alt="Myanmar Heritage">
+            </div>
+            <!-- Other slides similar structure -->
+        </div>
+    </div>
+
+    <section class="featured-section">
+        <div class="section-header">
+            <h2>Heritage Collection</h2>
+            <p>Explore Myanmar's rich cultural treasures</p>
+        </div>
+        <div class="featured-grid">
+            {% for item in heritage_items %}
+            <div class="featured-card">
+                <div class="card-image">
+                    <img src="{{ url_for('static', filename=item['Image']) }}" alt="{{ item['Title'] }}">
+                    <div class="card-overlay">
+                        <a href="/heritage/{{ item['Id'] }}" class="explore-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <h3>{{ item['Title'] }}</h3>
+                    <span class="period">{{ item['Period'] }}</span>
+                    <p class="description">{{ item['Desc'] }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section-footer">
+            <a href="/heritage" class="view-all">View All Heritage <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <section class="artist-section">
+        <div class="section-header">
+            <h2>Featured Artists</h2>
+            <p>Meet the masters of Myanmar art</p>
+        </div>
+        <div class="artist-grid">
+            {% for artist in artists %}
+            <div class="artist-card">
+                <div class="artist-image">
+                    <img src="{{ url_for('static', filename=artist['Image']) }}" alt="{{ artist['Name'] }}">
+                </div>
+                <div class="artist-info">
+                    <h3>{{ artist['Name'] }}</h3>
+                    <span class="artist-type">{{ artist['Type'] }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section-footer">
+            <a href="/artist" class="view-all">Meet Our Artists <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <section class="souvenir-section">
+        <div class="section-header">
+            <h2>Souvenirs</h2>
+            <p>Take home a piece of Myanmar</p>
+        </div>
+        <div class="souvenir-grid">
+            {% for item in souvenirs %}
+            <div class="souvenir-card">
+                <div class="souvenir-image">
+                    <img src="{{ url_for('static', filename=item['Image']) }}" alt="{{ item['Title'] }}">
+                    <div class="price-tag">{{ item['Price'] }} MMK</div>
+                </div>
+                <div class="souvenir-info">
+                    <h3>{{ item['Title'] }}</h3>
+                    <a href="/souvenir" class="buy-now">Learn More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="section-footer">
+            <a href="/souvenir" class="view-all">Browse Collection <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>ArtiMyanmar</h3>
+                <p>Preserving Myanmar's cultural heritage through digital innovation</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/heritage">Heritage</a></li>
+                    <li><a href="/artist">Artists</a></li>
+                    <li><a href="/souvenir">Souvenirs</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p><i class="fas fa-phone"></i> +95 123 456 789</p>
+                <p><i class="fas fa-map-marker-alt"></i> Yangon, Myanmar</p>
+                <p><i class="fas fa-envelope"></i> info@artimyanmar.com</p>
+            </div>
+            <div class="footer-social">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 ArtiMyanmar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced slider functionality
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach(slide => {
+                slide.style.opacity = 0;
+                slide.classList.remove('active');
+            });
+            slides[index].style.opacity = 1;
+            slides[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Initialize slider
+        showSlide(0);
+        setInterval(nextSlide, 5000);
+    </script>
+</body>
+</html>
