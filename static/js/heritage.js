@@ -39,18 +39,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Add filter functionality
-    document.getElementById('categoryFilter').addEventListener('change', function() {
-        const selectedCategory = this.value;
-        const cards = document.querySelectorAll('.gallery-card');
-        
-        cards.forEach(card => {
-            const cardCategory = card.getAttribute('data-category');
-            if (selectedCategory === 'all' || cardCategory === selectedCategory) {
-                card.style.display = 'block';
-                card.style.animation = 'fadeIn 0.5s ease';
-            } else {
-                card.style.display = 'none';
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+        const categorySelect = document.getElementById('categoryFilter');
+        const galleryItems = document.querySelectorAll('.gallery-card');
+    
+        categorySelect.addEventListener('change', function() {
+            const selectedCategory = this.value;
+            
+            galleryItems.forEach(item => {
+                const itemCategory = item.getAttribute('data-category');
+                if (selectedCategory === 'all' || selectedCategory === itemCategory) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         });
     });
 });

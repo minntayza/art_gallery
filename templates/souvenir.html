@@ -1,22 +1,75 @@
 {% extends "base.html" %}
 
-{% block content %}
-<div class="page-header">
-    <h1>Myanmar Souvenirs</h1>
-    <p>Traditional crafts and memorabilia</p>
-</div>
+{% block title %}Traditional Souvenirs - ArtiMyanmar{% endblock %}
 
-<div class="souvenir-grid">
-    {% for item in souvenirs %}
-    <div class="souvenir-card">
-        <img src="{{ url_for('static', filename=item['Image']) }}" alt="{{ item['Title'] }}">
-        <div class="souvenir-info">
-            <h2>{{ item['Title'] }}</h2>
-            <p class="type">{{ item['Type'] }}</p>
-            <p class="price">{{ item['Price'] }} MMK</p>
-            <p class="description">{{ item['Desc'] }}</p>
+{% block content %}
+<div style="background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%); min-height: 100vh; padding: 2rem 0;">
+    <div style="max-width: 1200px; margin: 6rem auto 4rem; padding: 0 2rem;">
+        <div style="text-align: center; margin-bottom: 4rem; transition: transform 0.3s ease;" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform='translateY(0)'">
+            <h1 style="font-size: 3.5rem; color: #2c3e50; font-family: 'Playfair Display', serif; margin-bottom: 1rem;">
+                Traditional Souvenirs
+            </h1>
+            <p style="font-size: 1.2rem; color: #666; max-width: 600px; margin: 0 auto;">
+                Discover authentic Myanmar crafts and take home a piece of our rich cultural heritage
+            </p>
+        </div>
+
+        <!-- Replace just the opening anchor tag -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem;">            {% for souvenir in souvenirs %}
+            <a href="/souvenir/{{ souvenir.Id }}" style="text-decoration: none;">
+                <div style="background: #ffffff; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.1); transition: all 0.3s ease;" 
+                     onmouseover="this.style.transform='translateY(-10px)';this.style.boxShadow='0 25px 50px rgba(0,0,0,0.15)'" 
+                     onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 15px 30px rgba(0,0,0,0.1)'">
+                    <div style="position: relative; height: 250px; overflow: hidden;">
+                        <img src="{{ url_for('static', filename=souvenir.Image) }}" 
+                             alt="{{ souvenir.Title }}" 
+                             style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;"
+                             onmouseover="this.style.transform='scale(1.1)'" 
+                             onmouseout="this.style.transform='scale(1)'">
+                        <div style="position: absolute; top: 1rem; right: 1rem; padding: 0.5rem 1rem; background: rgba(255,255,255,0.9); border-radius: 20px; backdrop-filter: blur(5px); transition: all 0.3s ease;"
+                             onmouseover="this.style.transform='translateY(-2px)';this.style.background='rgba(255,255,255,1)'" 
+                             onmouseout="this.style.transform='translateY(0)';this.style.background='rgba(255,255,255,0.9)'">
+                            <span style="font-weight: 600; color: #2c3e50;">{{ "{:,}".format(souvenir.Price|int) }} MMK</span>
+                        </div>
+                    </div>
+                    
+                    <div style="padding: 2rem;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                            <h2 style="font-size: 1.8rem; color: #2c3e50; font-family: 'Playfair Display', serif; margin: 0; transition: color 0.3s ease;"
+                                onmouseover="this.style.color='#3498db'" 
+                                onmouseout="this.style.color='#2c3e50'">
+                                {{ souvenir.Title }}
+                            </h2>
+                            <span style="padding: 0.5rem 1rem; background: #e3f2fd; color: #1976d2; border-radius: 15px; font-size: 0.9rem; transition: all 0.3s ease;"
+                                  onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 5px 10px rgba(25,118,210,0.2)'" 
+                                  onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+                                {{ souvenir.Type }}
+                            </span>
+                        </div>
+                        
+                        <p style="color: #666; line-height: 1.6; margin-bottom: 2rem; transition: color 0.3s ease;"
+                           onmouseover="this.style.color='#34495e'" 
+                           onmouseout="this.style.color='#666'">
+                            {{ souvenir.Desc }}
+                        </p>
+    
+                        <div style="display: flex; gap: 1rem;">
+                            <button style="flex: 3; padding: 1rem; background: linear-gradient(45deg, #2c3e50, #3498db); color: #fff; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;"
+                                    onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 5px 15px rgba(0,0,0,0.2)'" 
+                                    onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+                                Add to Cart
+                            </button>
+                            <button style="flex: 1; padding: 1rem; background: #f8f9fa; color: #2c3e50; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;"
+                                    onmouseover="this.style.transform='translateY(-3px)';this.style.background='#e3f2fd'" 
+                                    onmouseout="this.style.transform='translateY(0)';this.style.background='#f8f9fa'">
+                                ♥
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

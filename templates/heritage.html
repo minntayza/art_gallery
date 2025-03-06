@@ -18,95 +18,73 @@
         <p>Explore our curated collection of Myanmar's cultural heritage</p>
     </div>
 
-    <!-- Add the filter section here -->
+    <!-- Filter section -->
     <div class="filter-section">
         <select id="categoryFilter" class="category-select">
             <option value="all">All Categories</option>
-            <option value="Pagoda">Pagoda</option>
-            <option value="Stele">Stele</option>
-            <option value="Sculpture">Sculpture</option>
-            <option value="Painting">Painting</option>
-            <option value="Handicraft">Handicraft</option>
-            <option value="Musical Instrument">Musical Instrument</option>
-            <option value="Costume">Costume</option>
+            {% for category in categories %}
+            <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category }}</option>
+            {% endfor %}
         </select>
     </div>
     
+    <!-- Gallery Grid -->
     <div class="gallery-grid">
-        {% for item in heritage_items %}
-        <a href="{{ url_for('heritage_detail', heritage_id=item['Id']) }}" class="gallery-card" data-category="{{ item['Category'] }}">
+        {% for heritage in heritages %}
+        <a href="{{ url_for('heritage_detail', heritage_id=heritage.Id) }}" class="gallery-card" data-category="{{ heritage.Type }}" style="text-decoration: none; color: inherit;">
             <div class="card-image">
-                <img src="{{ url_for('static', filename=item['Image']) }}" alt="{{ item['Title'] }}">
-                <div class="tag">{{ item['Category'] }}</div>
+                <img src="{{ url_for('static', filename=heritage.Image) }}" alt="{{ heritage.Title }}">
+                <div class="tag">{{ heritage.Type }}</div>
             </div>
             <div class="card-info">
-                <h3>{{ item['Title'] }}</h3>
-                <button style="background: #3498db; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s ease; margin-top: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);" onmouseover="this.style.background='#2980b9'" onmouseout="this.style.background='#3498db'">See More</button>
+                <h3>{{ heritage.Title }}</h3>
+                <div style="
+                    background: linear-gradient(135deg, #3498db, #2980b9);
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 25px;
+                    cursor: pointer;
+                    font-size: 0.9rem;
+                    transition: all 0.3s ease;
+                    margin-top: 15px;
+                    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    letter-spacing: 0.5px;
+                    display: inline-block;
+                    transform: translateY(0);
+                    " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(52, 152, 219, 0.4)'" 
+                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(52, 152, 219, 0.3)'">
+                    See More
+                </div>
             </div>
         </a>
         {% endfor %}
     </div>
-
-    <!-- Heritage Modal -->
-    <div id="heritageModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-grid">
-                <div class="modal-image">
-                    <img id="modalImage" src="" alt="">
-                </div>
-                <div class="modal-info">
-                    <h2 id="modalTitle"></h2>
-                    <span id="modalPeriod" class="period"></span>
-                    <div class="modal-desc">
-                        <p id="modalDesc"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Make sure this modal div is inside the section but before the closing section tag -->
-<div id="heritageModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <div class="modal-grid">
-            <div class="modal-image">
-                <img id="modalImage" src="" alt="">
-            </div>
-            <div class="modal-info">
-                <h2 id="modalTitle"></h2>
-                <span id="modalPeriod" class="period"></span>
-                <div class="modal-desc">
-                    <p id="modalDesc"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Heritage Modal -->
-<div id="heritageModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <div class="modal-grid">
-            <div class="modal-image">
-                <img id="modalImage" src="" alt="">
-            </div>
-            <div class="modal-info">
-                <h2 id="modalTitle"></h2>
-                <span id="modalPeriod" class="period"></span>
-                <div class="modal-desc">
-                    <p id="modalDesc"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </section>
-
 {% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/heritage.js') }}"></script>
 {% endblock %}
+<div class="category-filter" style="text-align: center; margin: 2rem 0;">
+    <a href="{{ url_for('heritage', category='all') }}" 
+       class="category-btn {% if selected_category == 'all' %}active{% endif %}"
+       style="display: inline-block; padding: 0.5rem 1rem; margin: 0.5rem; 
+              border-radius: 20px; text-decoration: none; 
+              background: {% if selected_category == 'all' %}#3498db{% else %}#f8f9fa{% endif %}; 
+              color: {% if selected_category == 'all' %}white{% else %}#2c3e50{% endif %};">
+        All
+    </a>
+    {% for category in categories %}
+    <a href="{{ url_for('heritage', category=category) }}" 
+       class="category-btn {% if selected_category == category %}active{% endif %}"
+       style="display: inline-block; padding: 0.5rem 1rem; margin: 0.5rem; 
+              border-radius: 20px; text-decoration: none;
+              background: {% if selected_category == category %}#3498db{% else %}#f8f9fa{% endif %}; 
+              color: {% if selected_category == category %}white{% else %}#2c3e50{% endif %};">
+        {{ category }}
+    </a>
+    {% endfor %}
+</div>

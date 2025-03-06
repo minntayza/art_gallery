@@ -319,18 +319,3 @@
         height: 300px;
     }
 }
-.see-more-btn {
-    background: #3498db;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background 0.3s ease;
-    margin-top: 10px;
-}
-
-.see-more-btn:hover {
-    background: #2980b9;
-}

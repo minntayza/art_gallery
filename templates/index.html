@@ -29,17 +29,110 @@
 
     <div class="hero-section">
         <div class="hero-slider">
-            <div class="slide active">
+            <div class="slide">
                 <div class="slide-content">
                     <h1>Discover Myanmar's<br>Cultural Heritage</h1>
                     <p>Experience the beauty of traditional art and craftsmanship</p>
                     <a href="/heritage" class="cta-button">Explore Now</a>
                 </div>
-                <img src="{{ url_for('static', filename='images/slider1.jpg') }}" alt="Myanmar Heritage">
+                <img src="{{ url_for('static', filename='images/g1.jpg') }}" alt="Myanmar Heritage">
             </div>
-            <!-- Other slides similar structure -->
+            
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Traditional Arts<br>& Crafts</h1>
+                    <p>Explore the rich artistic heritage of Myanmar</p>
+                    <a href="/artist" class="cta-button">Meet Artists</a>
+                </div>
+                <img src="{{ url_for('static', filename='images/g2.jpg') }}" alt="Myanmar Arts">
+            </div>
+
+            <div class="slide">
+                <div class="slide-content">
+                    <h1>Authentic<br>Myanmar Souvenirs</h1>
+                    <p>Take home a piece of Myanmar's culture</p>
+                    <a href="/souvenir" class="cta-button">Shop Now</a>
+                </div>
+                <img src="{{ url_for('static', filename='images/g3.jpg') }}" alt="Myanmar Souvenirs">
+            </div>
+
+            <div class="slider-controls">
+                <button class="prev-btn" onclick="changeSlide(-1)">❮</button>
+                <button class="next-btn" onclick="changeSlide(1)">❯</button>
+            </div>
+
+            <div class="slider-dots">
+                <span class="dot active" onclick="currentSlide(0)"></span>
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+            </div>
         </div>
     </div>
+
+    <!-- Update the script section at the bottom of the file -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            // Hide all slides
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Update dots
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+
+            // Show current slide
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function setSlide(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+            resetInterval();
+        }
+
+        function resetInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        // Initialize slider
+        showSlide(0);
+        slideInterval = setInterval(nextSlide, 5000);
+
+        // Add event listeners for controls
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            prevSlide();
+            resetInterval();
+        });
+
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            nextSlide();
+            resetInterval();
+        });
+
+        // Add click events to dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => setSlide(index));
+        });
+    </script>
 
     <section class="featured-section">
         <div class="section-header">

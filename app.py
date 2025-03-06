@@ -77,20 +77,34 @@ def home():
 
 @app.route('/heritage')
 def heritage():
-    heritage_items = []
-    categories = []
+    # Get selected category from query parameter
+    selected_category = request.args.get('category', 'all')
     
-    # Fetch categories
-    for result in prolog.query("category(Name)"):
-        categories.append(result["Name"])
+    # Query all heritage items
+    query = "heritage(Id, Title, Image, Desc, Type, Period)"
+    heritages = list(prolog.query(query))
     
-    # Fetch heritage items
-    for result in prolog.query("heritage(Id, Title, Image, Desc, Category, Period)"):
-        heritage_items.append(dict(result))
-        
-    return render_template('heritage.html', 
-                         heritage_items=heritage_items,
-                         categories=categories)
+    # Convert to list of dictionaries
+    heritage_items = [
+        {
+            'Id': item['Id'],
+            'Title': item['Title'],
+            'Image': item['Image'],
+            'Desc': item['Desc'],
+            'Type': item['Type'],
+            'Period': item['Period']
+        }
+        for item in heritages
+    ]
+    
+    # Filter by category if one is selected
+    if selected_category and selected_category.lower() != 'all':
+        heritage_items = [item for item in heritage_items if item['Type'] == selected_category]
+    
+    # Get all unique categories
+    categories = list(set(item['Type'] for item in heritage_items))
+    
+    return render_template('heritage.html', heritages=heritage_items, categories=categories, selected_category=selected_category)
 
 @app.route('/artist')
 def artist():
@@ -142,24 +156,18 @@ def get_heritage_by_id(heritage_id):
         }
     return None
 
+from random import sample
+
 @app.route('/heritage/<int:heritage_id>')
 def heritage_detail(heritage_id):
-    heritage = None
-    for result in prolog.query(f"heritage({heritage_id}, Title, Image, Desc, Category, Period)"):
-        heritage = {
-            'Id': heritage_id,
-            'Title': result['Title'],
-            'Image': result['Image'],
-            'Desc': result['Desc'],
-            'Category': result['Category'],
-            'Period': result['Period']
-        }
-        break  # Get the first matching result
+    query = f"heritage(Id, Title, Image, Desc, Type, Period)"
+    heritages = list(prolog.query(query))
     
-    if heritage is None:
-        return redirect(url_for('heritage'))
-        
-    return render_template('heritage_detail.html', heritage=heritage)
+    heritage_item = next((item for item in heritages if item['Id'] == heritage_id), None)
+    
+    if heritage_item:
+        return render_template('heritage_detail.html', heritage=heritage_item)
+    return redirect(url_for('heritage'))
 
 @app.route('/artist/<int:artist_id>')
 def artist_detail(artist_id):
@@ -177,14 +185,15 @@ def artist_detail(artist_id):
             'Period': result['Period']
         }
         break
-
-    # Get paintings by this artist
-    for result in prolog.query(f"artist_painting({artist_id}, PaintingId), heritage(PaintingId, Title, Image, Desc, _, Period)"):
+    
+    # Get artist's paintings with IDs
+    for painting_result in prolog.query(f"artist_painting({artist_id}, PaintingId), heritage(PaintingId, Title, Image, Desc, Category, Period)"):
         paintings.append({
-            'Title': result['Title'],
-            'Image': result['Image'],
-            'Desc': result['Desc'],
-            'Period': result['Period']
+            'Id': painting_result['PaintingId'],  # Include the painting ID
+            'Title': painting_result['Title'],
+            'Image': painting_result['Image'],
+            'Desc': painting_result['Desc'],
+            'Period': painting_result['Period']
         })
     
     if artist is None:

@@ -3,70 +3,60 @@
 {% block title %}{{ heritage.Title }} - ArtiMyanmar{% endblock %}
 
 {% block content %}
-<div style="background-color: #f5f5f5; min-height: 100vh; padding: 2rem 0;">
-    <div style="max-width: 1200px; margin: 6rem auto 4rem; padding: 0 2rem;">
-        <div style="background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); padding: 3rem;">
-            <div style="display: flex; gap: 4rem; margin-bottom: 4rem; align-items: flex-start;">
-                <div style="flex: 0 0 350px;">
-                    <div style="width: 350px; height: 350px; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);">
-                        <img src="{{ url_for('static', filename=heritage.Image) }}" alt="{{ heritage.Title }}" 
-                             style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;">
-                    </div>
-                </div>
-                
-                <div style="flex: 1; padding-top: 1rem;">
-                    <h1 style="font-size: 3rem; color: #2c3e50; font-family: 'Playfair Display', serif; margin-bottom: 1.5rem; line-height: 1.2;">
-                        {{ heritage.Title }}
-                    </h1>
-                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
-                        <span style="padding: 0.8rem 1.5rem; border-radius: 25px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; background: #3498db; color: #fff;">
-                            {{ heritage.Period }}
-                        </span>
-                        <span style="padding: 0.8rem 1.5rem; border-radius: 25px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; background: #e74c3c; color: #fff;">
-                            {{ heritage.Category }}
-                        </span>
-                    </div>
-                    <div style="font-size: 1.2rem; line-height: 1.8; color: #34495e; margin-bottom: 2rem;">
-                        <p>{{ heritage.Desc }}</p>
-                    </div>
-                </div>
+<div style="max-width: 1200px; margin: 7rem auto 2rem auto; padding: 0 1rem;">
+    <a href="{{ url_for('heritage') }}" style="
+        display: inline-block;
+        background: #2c3e50;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-bottom: 1rem;
+        transition: all 0.3s ease;"
+        onmouseover="this.style.background='#34495e'"
+        onmouseout="this.style.background='#2c3e50'">
+        ← Back to Gallery
+    </a>
+    
+    <div style="background: white; border-radius: 15px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); overflow: hidden;">
+        <img src="{{ url_for('static', filename=heritage.Image) }}" 
+             alt="{{ heritage.Title }}" 
+             style="width: 100%; object-fit: contain;">
+        <div style="padding: 2rem;">
+            <span style="
+                display: inline-block;
+                background: #3498db;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                margin-bottom: 1rem;">
+                {{ heritage.Type }}
+            </span>
+            <h1 style="font-size: 2rem; margin-bottom: 1rem; color: #2c3e50;">{{ heritage.Title }}</h1>
+            
+            <div style="
+                background: #f8f9fa;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1.5rem 0;
+                border-left: 4px solid #3498db;">
+                <h3 style="color: #2c3e50; margin-bottom: 0.5rem; font-size: 1.2rem;">Historical Period</h3>
+                <p style="color: #7f8c8d; font-size: 1.1rem;">{{ heritage.Period }}</p>
             </div>
 
-            <div style="border-top: 1px solid #eee; padding-top: 3rem; margin-top: 2rem;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; transition: all 0.3s ease;">
-                        <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 0.8rem;">
-                            Category
-                        </div>
-                        <div style="font-size: 1.2rem; color: #2c3e50; font-weight: 600;">
-                            {{ heritage.Category }}
-                        </div>
-                    </div>
-                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; transition: all 0.3s ease;">
-                        <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 0.8rem;">
-                            Historical Period
-                        </div>
-                        <div style="font-size: 1.2rem; color: #2c3e50; font-weight: 600;">
-                            {{ heritage.Period }}
-                        </div>
-                    </div>
-                    <div style="background: #f8f9fa; padding: 2rem; border-radius: 15px; transition: all 0.3s ease;">
-                        <div style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #666; margin-bottom: 0.8rem;">
-                            Location
-                        </div>
-                        <div style="font-size: 1.2rem; color: #2c3e50; font-weight: 600;">
-                            Myanmar
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 3rem; text-align: center;">
-                <a href="{{ url_for('heritage') }}" 
-                   style="display: inline-flex; align-items: center; padding: 1rem 2rem; background: #3498db; color: #fff; text-decoration: none; border-radius: 30px; font-weight: 500; transition: all 0.3s ease;">
-                    <span style="margin-right: 0.8rem; font-size: 1.2rem;">←</span>
-                    Back to Heritage Gallery
-                </a>
+            <div style="
+                background: #f8f9fa;
+                padding: 1.5rem;
+                border-radius: 10px;
+                margin: 1.5rem 0;">
+                <h3 style="color: #2c3e50; margin-bottom: 1rem; font-size: 1.2rem;">Description</h3>
+                <p style="
+                    line-height: 1.8;
+                    color: #34495e;
+                    font-size: 1.1rem;
+                    text-align: justify;">
+                    {{ heritage.Desc }}
+                </p>
             </div>
         </div>
     </div>
